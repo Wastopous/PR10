@@ -1,0 +1,22 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        SizeToContent="WidthAndHeight"
+        SystemDecorations="None"
+        WindowStartupLocation="CenterScreen"
+        x:Class="GASH.Views.WindowBase"
+        Title="WindowBase">
+    <Window.Styles>
+        
+    </Window.Styles>
+    <Border Background="Black" BorderBrush="White" BorderThickness="2">
+    <Grid Background="Black" x:Name="RootGrid" RowDefinitions="*, Auto"  PointerPressed="Drag" PointerMoved="Drug">
+        <Grid Grid.Row="1" ColumnDefinitions="*, *">
+        <Button Classes="GodButton" x:Name="GoidaButton" Grid.Column="0" Margin="0, 10, 0, 15" Width="80" Height="40" Background="White" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Go" FontSize="16" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontWeight="Black"></Button>
+        <Button Classes="GodButton" x:Name="CancelButton" Grid.Column="1" Margin="0, 10, 0, 15" Width="80" Height="40" Background="White" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Отмена" FontSize="16" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontWeight="Black"> </Button>
+        </Grid>
+        </Grid>
+    </Border>
+</Window>

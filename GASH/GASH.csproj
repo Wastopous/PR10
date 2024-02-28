@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+
+  
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  
+  <ItemGroup>
+    <None Remove="Assets\addicon.png" />
+    <None Remove="Assets\changeicon.png" />
+    <None Remove="Assets\deleteicon.png" />
+    <None Remove="Assets\dstg.png" />
+    <None Remove="Assets\homeicon.png" />
+    <None Remove="Assets\menuicon.png" />
+    <None Remove="Assets\sss.png" />
+    <None Remove="Assets\wt.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.0.7" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.7" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.7" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.7" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.7" />
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.7" />
+    <PackageReference Include="Captcha.Avalonia" Version="1.0.0" />
+    <PackageReference Include="CaptchaForAvalonia" Version="1.0.0.4" />
+    <PackageReference Include="MySql.Data" Version="8.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Avalonia.Controls">
+      <HintPath>C:\Users\iluha\source\repos\gigachad1488\GASH\GASH.Desktop\bin\Debug\net7.0\Avalonia.Controls.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\YNMessageBoxWindow.axaml.cs">
+      <DependentUpon>YNMessageBoxWindow.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

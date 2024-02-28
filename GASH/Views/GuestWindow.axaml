@@ -1,0 +1,51 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="GASH.Views.GuestWindow"
+        xmlns:vm="clr-namespace:GASH.ViewModels"
+        x:DataType="vm:MainViewModel"
+        xmlns:models="clr-namespace:GASH.Models"
+        Background="Black"
+        WindowStartupLocation="CenterScreen"
+        Title="GuestWindow"
+        SystemDecorations="None"
+        SizeToContent="WidthAndHeight">
+    <Design.DataContext>
+        <vm:MainViewModel/>
+    </Design.DataContext>
+    <Border BorderBrush="White" BorderThickness="2" PointerPressed="Sigma">
+        <Grid Grid.Column="0" RowDefinitions="Auto, *">
+            <Border Grid.Row="0" Height="45" Background="Transparent" BorderBrush="White" BorderThickness="0, 0, 0, 2">
+                <Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <Border  Width="150" BorderBrush="White" BorderThickness="0, 0, 2, 0">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13" FontWeight="Bold">ТОВАР</TextBlock>
+                        </Border>
+                        <TextBox x:Name="goodsFilterText" Width="200" MinHeight="1" Height="32" VerticalAlignment="Center" Margin="15, 0, 10, 0"></TextBox>
+                    </StackPanel>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Black" FontSize="17" Foreground="White" Margin="0, 0, 10, 0" x:Name="closeText">X</TextBlock>
+                </Grid>
+            </Border>
+            <DataGrid Margin="5, 0, 0, 0" IsReadOnly="True" x:Name="goodDataGrid" x:CompileBindings="False" Grid.Row="1" ItemsSource="{Binding GoodsView}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Width="85" Header="Изображение">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:Good">
+                                <Image Width="80" Height="80" Stretch="UniformToFill" Source="{Binding image}"></Image>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Название" Binding="{Binding name}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Описание" Binding="{Binding description}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Производитель" Binding="{Binding manufacturer, Mode=OneWay}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Категория" Binding="{Binding category, Mode=OneWay}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Ед. измерения" Binding="{Binding unit, Mode=OneWay}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Цена" Binding="{Binding price}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Количество" Binding="{Binding count}"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Border>
+</Window>

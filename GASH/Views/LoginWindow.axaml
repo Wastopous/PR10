@@ -1,0 +1,66 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:vm="clr-namespace:"
+        xmlns:capthca="clr-namespace:Captcha.Avalonia;assembly=Captcha.Avalonia"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+		WindowStartupLocation="CenterScreen"
+		SystemDecorations="None"
+		WindowState="Normal"
+        SizeToContent="WidthAndHeight"
+		MaxWidth="400"
+		MaxHeight="450"
+        x:Class="GASH.Views.LoginWindow"
+		Background="Black"
+        x:Name="window"
+        Title="LoginWindow">
+    <Window.Styles>
+        
+    </Window.Styles>
+
+    <Grid Background="Black" x:Name="srid" PointerPressed="Grid_PointerPressed" RowDefinitions="Auto, *">
+        <Grid Grid.Row="0">
+            <Button x:Name="ExitButton" Background="Transparent" Foreground="White" VerticalAlignment="Top" FontSize="18" HorizontalAlignment="Right" Margin="0, 2, 5, 0">
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">X</TextBlock>
+                <Button.Styles>
+                    <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                        <Setter Property="Background" Value="Transparent"></Setter>
+                    </Style>
+                </Button.Styles>
+            </Button>
+            
+        </Grid>
+        <Grid Grid.Row="1">
+            <Button x:Name="popupButton" VerticalAlignment="Bottom" Content=">" Width="24" Height="28" FontSize="12" Margin="0, 0, 0, 5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Right"></Button>
+            
+        <Grid Margin="40, -20, 40, 0" Width="250" Height="400" RowDefinitions="*, *, *, Auto">
+            <Grid Grid.Row="0" RowDefinitions="*, *">
+                <TextBlock Grid.Row="0" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="20">ЛОГИН</TextBlock>
+                <TextBox Height="40" x:Name="LoginTextBox" Grid.Row="1" VerticalContentAlignment="Center" FontSize="18"  BorderThickness="1" BorderBrush="White" Background="Transparent" Foreground="White"></TextBox>
+            </Grid>
+            <Grid Margin="0, 5, 0, 0" Grid.Row="1" RowDefinitions="*, *">
+                <TextBlock Grid.Row="0" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="20">ПАРОЛЬ</TextBlock>
+                <TextBox Height="40" x:Name="PasswordTextBox" PasswordChar="☻" Grid.Row="1" VerticalContentAlignment="Center" FontSize="18" BorderThickness="1" BorderBrush="White" Background="Transparent" Foreground="White">
+                    <TextBox.Styles>
+                        <Style Selector="TextBox#PasswordTextBox /template/ TextPresenter#PART_TextPresenter">
+                            <Setter Property="Effect">
+                                <DropShadowEffect Color="Black" OffsetX="0" OffsetY="0" BlurRadius="5"></DropShadowEffect>
+                            </Setter>
+                        </Style>
+                    </TextBox.Styles>
+                </TextBox>
+            </Grid>
+            <Grid x:Name="CaptchaGrid" Width="220" Margin="0, 35, 0, 0" Grid.Row="2" RowDefinitions="*, *">
+                <capthca:CaptchaAvalonia Grid.Row="0"  Height="60" VerticalAlignment="Center" x:Name="Captcha"/>
+                <TextBox x:Name="CaptchaTextBox" Margin="0, 18, 0, 10" Grid.Row="1" VerticalContentAlignment="Center" FontSize="14"  BorderThickness="1" BorderBrush="White" Background="Transparent" Foreground="White"></TextBox>
+            </Grid>
+            <Grid Grid.Row="3" Height="70">
+                <Button Classes="GodButton" x:Name="LoginButton" Content="ВХОД" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="Black" FontWeight="Bold" FontSize="20" Background="White" VerticalAlignment="Center" HorizontalAlignment="Center" Width="150" Height="40">
+              
+                </Button>              
+            </Grid>
+        </Grid>
+        </Grid>
+    </Grid>
+</Window>

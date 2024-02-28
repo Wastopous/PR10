@@ -1,0 +1,428 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="GASH.Views.DefaultWindow"
+        xmlns:vm="clr-namespace:GASH.ViewModels"
+        xmlns:models="clr-namespace:GASH.Models"
+        x:DataType="vm:MainViewModel"
+        SystemDecorations="BorderOnly"
+        WindowStartupLocation="CenterScreen"
+        MinHeight="250"
+        MinWidth="450"
+        BorderThickness="0"
+        Title="DefaultWindow">
+    <Design.DataContext>
+        <vm:MainViewModel/>
+    </Design.DataContext>
+
+    <Window.Styles>
+        <Style Selector="TabControl">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border BorderBrush="White"
+                            BorderThickness="0"
+                            Background="Black"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch">
+                        <DockPanel>
+                            <ScrollViewer DockPanel.Dock="Left"
+                                          HorizontalAlignment="Stretch"
+                                          HorizontalScrollBarVisibility="Auto">
+                                <ItemsPresenter Name="PART_ItemsPresenter"
+                                                ItemsPanel="{TemplateBinding ItemsPanel}" />
+                            </ScrollViewer >
+                            <ContentPresenter Name="PART_SelectedContentHost"
+                                  Margin="{TemplateBinding Margin}"
+                                  HorizontalContentAlignment="Stretch"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  Content="{TemplateBinding SelectedContent}"
+                                  ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+            
+            <Setter Property="ItemsPanel">
+                <ItemsPanelTemplate>
+                    <Grid Margin="-5, 0, 10, 0" RowDefinitions="*, *, *, *"/>
+                </ItemsPanelTemplate>
+            </Setter>
+
+            <Style Selector="^ WrapPanel">
+                <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            </Style>
+
+            <Style Selector="^ TabItem">
+                <Setter Property="Width" Value="30"></Setter>
+                <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                <Setter Property="VerticalContentAlignment" Value="Stretch"></Setter>
+                <Setter Property="Margin" Value="10, 10, -5, 10"></Setter>
+                <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+
+                <Style Selector="^:selected /template/ Border#PART_SelectedPipe">
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                </Style>
+
+                <Style Selector="^:selected">
+                    <Setter Property="Effect">
+                        <DropShadowEffect OffsetX="0" OffsetY="0" Color="White" BlurRadius="25"></DropShadowEffect>
+                    </Setter>
+                </Style>
+            </Style>
+
+            <Style Selector="^ /template/ ContentPresenter#PART_SelectedContentHost">
+                <Setter Property="BorderBrush" Value="White"></Setter>
+                <Setter Property="BorderThickness" Value="2, 0, 0, 0"></Setter>
+            </Style>
+        </Style>
+
+        <Style Selector="ItemsControl Border">
+            <Setter Property="Effect">
+                <DropShadowEffect Color="White" OffsetX="0" OffsetY="0" BlurRadius="40" Opacity="1"></DropShadowEffect>
+            </Setter>
+        </Style>  
+        
+        <Style Selector="DataGridRow.rejectedStatus">
+
+            <Setter Property="Opacity" Value="0.4"/>
+        </Style>
+    </Window.Styles>
+
+    <Border Background="Black" BorderBrush="White" BorderThickness="2, 0, 2, 2">
+        <TabControl PointerPressed="Drag" PointerMoved="Drug" x:Name="mainTabControl" SelectedIndex="1" Background="Black" TabStripPlacement="Left">
+            <TabItem x:Name="backButton" Grid.Row="0" Header="=-">
+                <TabItem.Background>
+                    <ImageBrush Stretch="Uniform" Source="/Assets/wt.png"></ImageBrush>
+                </TabItem.Background>
+                <TabItem.Styles>
+                    <Style Selector="TabItem:pointerover /template/ Border#PART_LayoutRoot">
+                        <Setter Property="Background">
+                            <ImageBrush Stretch="Uniform" Source="/Assets/wt.png"></ImageBrush>
+                        </Setter>
+                    </Style>
+                </TabItem.Styles>
+            </TabItem>
+            <TabItem Grid.Row="1" VerticalAlignment="Bottom" Header="">
+                <TabItem.Background>
+                    <ImageBrush Stretch="Uniform" Source="/Assets/homeicon.png"></ImageBrush>
+                </TabItem.Background>
+                <TabItem.Styles>
+                    <Style Selector="TabItem:pointerover /template/ Border#PART_LayoutRoot">
+                        <Setter Property="Background">
+                            <ImageBrush Stretch="Uniform" Source="/Assets/homeicon.png"></ImageBrush>
+                        </Setter>
+                    </Style>
+                </TabItem.Styles>
+                <Grid>
+                    <Grid>
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Grid Grid.Column="0" RowDefinitions="Auto, *">
+                                <Border Grid.Row="0" Height="45" Background="Transparent" BorderBrush="White" BorderThickness="0, 0, 0, 2">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border  Width="150" BorderBrush="White" BorderThickness="0, 0, 2, 0">
+                                            <Grid>
+                                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13" FontWeight="Bold">ТОВАР</TextBlock>
+                                            <TextBlock x:Name="goodCountText" Text="{Binding Goods.Count}" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="12" FontWeight="Bold">5</TextBlock>
+                                            </Grid>
+                                        </Border>
+                                        <TextBox x:Name="goodsFilterText" Width="200" MinHeight="1" Height="32" VerticalAlignment="Center" Margin="15, 0, 10, 0"></TextBox>
+                                        <ComboBox x:Name="manufacturerComboFilter" Width="150" VerticalAlignment="Center"></ComboBox>
+                                        <CheckBox x:Name="sortCheckBox" IsChecked="{Binding SortCheck}" Background="White" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"></CheckBox>
+                                    </StackPanel>
+                                </Border>
+                                <DataGrid Margin="5, 0, 0, 0" IsReadOnly="True" x:Name="goodDataGrid" x:CompileBindings="False" Grid.Row="1" ItemsSource="{Binding GoodsView}">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Width="85" Header="Изображение">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate DataType="models:Good">
+                                                    <Image Width="80" Height="80" Stretch="UniformToFill" Source="{Binding image}"></Image>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTextColumn Header="Название" Binding="{Binding name}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="Описание" Binding="{Binding description}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="Производитель" Binding="{Binding manufacturer, Mode=OneWay}"></DataGridTextColumn>
+                                        <DataGridTextColumn  Header="Категория" Binding="{Binding category, Mode=OneWay}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="Ед. измерения" Binding="{Binding unit, Mode=OneWay}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="Цена" Binding="{Binding price}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="Количество" Binding="{Binding count}"></DataGridTextColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                            <Grid Grid.Column="1" Background="Transparent">
+                                <Border BorderBrush="White" BorderThickness="2, 0, 0, 0">
+                                    <Grid RowDefinitions="0.6*, *">
+                                        <Grid Width="35" Grid.Row="0" RowDefinitions="*, *, *">
+                                            <Button x:Name="addGoodButton" Classes="GodButton" VerticalAlignment="Center" HorizontalAlignment="Right" Width="30" Height="30" Grid.Row="0">
+                                                <Button.Background>
+                                                    <ImageBrush Stretch="Fill" Source="/Assets/addicon.png"></ImageBrush>
+                                                </Button.Background>
+                                                <Button.Styles>
+                                                    <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                                        <Setter Property="Background">
+                                                            <ImageBrush Stretch="Fill" Source="/Assets/addicon.png"></ImageBrush>
+                                                        </Setter>
+                                                    </Style>
+                                                </Button.Styles>
+                                            </Button>
+                                            <Button x:Name="changeGoodButton" Classes="GodButton" VerticalAlignment="Center" HorizontalAlignment="Right" Width="30" Height="30" Grid.Row="1">
+                                                <Button.Background>
+                                                    <ImageBrush Stretch="Fill" Source="/Assets/changeicon.png"></ImageBrush>
+                                                </Button.Background>
+                                                <Button.Styles>
+                                                    <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                                        <Setter Property="Background">
+                                                            <ImageBrush Stretch="Fill" Source="/Assets/changeicon.png"></ImageBrush>
+                                                        </Setter>
+                                                    </Style>
+                                                </Button.Styles>
+                                            </Button>
+                                            <Button x:Name="deleteGoodButton" Classes="GodButton" VerticalAlignment="Center" HorizontalAlignment="Right" Width="30" Height="30" Grid.Row="2">
+                                                <Button.Background>
+                                                    <ImageBrush Stretch="Fill" Source="/Assets/deleteicon.png"></ImageBrush>
+                                                </Button.Background>
+                                                <Button.Styles>
+                                                    <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                                        <Setter Property="Background">
+                                                            <ImageBrush Stretch="Fill" Source="/Assets/deleteicon.png"></ImageBrush>
+                                                        </Setter>
+                                                    </Style>
+                                                </Button.Styles>
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Grid.Row="2" VerticalAlignment="Top" Header="">
+                <TabItem.Background>
+                    <ImageBrush Stretch="Uniform" Source="/Assets/menuicon.png"></ImageBrush>
+                </TabItem.Background>
+                <TabItem.Styles>
+                    <Style Selector="TabItem:pointerover /template/ Border#PART_LayoutRoot">
+                        <Setter Property="Background">
+                            <ImageBrush Stretch="Uniform" Source="/Assets/menuicon.png"></ImageBrush>
+                        </Setter>
+                    </Style>
+                </TabItem.Styles>
+
+                <Grid RowDefinitions="*, *, *" ColumnDefinitions="*, *, *">
+                    <Button Grid.Row="0" Grid.Column="0" x:Name="categoryTabButton" Classes="GodButton" Content="Категория" FontSize="12" FontWeight="Black" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="120" Height="55"></Button>
+                    <Button Grid.Row="0" Grid.Column="1" x:Name="manufacturerTabButton" Classes="GodButton" Content="Производитель" FontSize="12" FontWeight="Black" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="120" Height="55"></Button>
+                    <Button Grid.Row="0" Grid.Column="2" x:Name="unitTabButton" Classes="GodButton" Content="  Единицы&#x0a;измерения" FontSize="12" FontWeight="Black" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="120" Height="55"></Button>
+                </Grid>
+            </TabItem>
+            <TabItem Grid.Row="3" VerticalAlignment="Top" Header="">
+                <TabItem.Background>
+                    <ImageBrush Stretch="Uniform" Source="/Assets/menuicon.png"></ImageBrush>
+                </TabItem.Background>
+                <TabItem.Styles>
+                    <Style Selector="TabItem:pointerover /template/ Border#PART_LayoutRoot">
+                        <Setter Property="Background">
+                            <ImageBrush Stretch="Uniform" Source="/Assets/menuicon.png"></ImageBrush>
+                        </Setter>
+                    </Style>
+                </TabItem.Styles>
+
+                <Grid RowDefinitions="*, *">
+                    <TextBlock Grid.Row="0" x:Name="accFioText" Text="{Binding accfio}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold">сигма 100</TextBlock>
+                    <Button Grid.Row="1" x:Name="logoutButton" Classes="GodButton" Content="Выход" FontSize="12" FontWeight="Black" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="120" Height="55"></Button>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="categoriesTab" IsVisible="False">
+                <Grid ColumnDefinitions="*, Auto">
+                    <Grid Grid.Column="0" RowDefinitions="Auto, *">
+                        <Border Grid.Row="0" Height="45" Background="Transparent" BorderBrush="White" BorderThickness="0, 0, 0, 2">
+                            <StackPanel Orientation="Horizontal">
+                                <Border  Width="150" BorderBrush="White" BorderThickness="0, 0, 2, 0">
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13" FontWeight="Bold">КАТЕГОРИЯ</TextBlock>
+                                </Border>
+                                <TextBox x:Name="categoriesFilterText" Width="200" MinHeight="1" Height="32" VerticalAlignment="Center" Margin="15, 0, 10, 0"></TextBox>
+                            </StackPanel>
+                        </Border>
+                        <DataGrid Margin="5, 0, 0, 0" x:Name="categoryDataGrid" IsReadOnly="True" x:CompileBindings="False" ItemsSource="{Binding CategoriesView}" Grid.Row="1">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Название" Binding="{Binding name}"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                    <Grid Grid.Column="1" Background="Transparent">
+                        <Border BorderBrush="White" BorderThickness="2, 0, 0, 0">
+                            <Grid RowDefinitions="0.6*, *">
+                                <Grid Width="35" Grid.Row="0" RowDefinitions="*, *, *">
+                                    <Button x:Name="addCategoryButton" Classes="GodButton" VerticalAlignment="Center" HorizontalAlignment="Right" Width="30" Height="30" Grid.Row="0">
+                                        <Button.Background>
+                                            <ImageBrush Stretch="Fill" Source="/Assets/addicon.png"></ImageBrush>
+                                        </Button.Background>
+                                        <Button.Styles>
+                                            <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                                <Setter Property="Background">
+                                                    <ImageBrush Stretch="Fill" Source="/Assets/addicon.png"></ImageBrush>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Styles>
+                                    </Button>
+                                    <Button x:Name="changeCategoryButton" Classes="GodButton" VerticalAlignment="Center" HorizontalAlignment="Right" Width="30" Height="30" Grid.Row="1">
+                                        <Button.Background>
+                                            <ImageBrush Stretch="Fill" Source="/Assets/changeicon.png"></ImageBrush>
+                                        </Button.Background>
+                                        <Button.Styles>
+                                            <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                                <Setter Property="Background">
+                                                    <ImageBrush Stretch="Fill" Source="/Assets/changeicon.png"></ImageBrush>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Styles>
+                                    </Button>
+                                    <Button x:Name="deleteCategoryButton" Classes="GodButton" VerticalAlignment="Center" HorizontalAlignment="Right" Width="30" Height="30" Grid.Row="2">
+                                        <Button.Background>
+                                            <ImageBrush Stretch="Fill" Source="/Assets/deleteicon.png"></ImageBrush>
+                                        </Button.Background>
+                                        <Button.Styles>
+                                            <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                                <Setter Property="Background">
+                                                    <ImageBrush Stretch="Fill" Source="/Assets/deleteicon.png"></ImageBrush>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Styles>
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="manufacturersTab" IsVisible="False">
+                <Grid ColumnDefinitions="*, Auto">
+                    <Grid Grid.Column="0" RowDefinitions="Auto, *">
+                        <Border Grid.Row="0" Height="45" Background="Transparent" BorderBrush="White" BorderThickness="0, 0, 0, 2">
+                            <StackPanel Orientation="Horizontal">
+                                <Border  Width="150" BorderBrush="White" BorderThickness="0, 0, 2, 0">
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13" FontWeight="Bold">ПРОИЗВОДИТЕЛЬ</TextBlock>
+                                </Border>
+                                <TextBox x:Name="manufacturerFilterText" Width="200" MinHeight="1" Height="32" VerticalAlignment="Center" Margin="15, 0, 10, 0"></TextBox>
+                            </StackPanel>
+                        </Border>
+                        <DataGrid Margin="5, 0, 0, 0" x:Name="manufacturerDataGrid" IsReadOnly="True" x:CompileBindings="False" ItemsSource="{Binding ManufacturersView}" Grid.Row="1">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Название" Binding="{Binding name}"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                    <Grid Grid.Column="1" Background="Transparent">
+                        <Border BorderBrush="White" BorderThickness="2, 0, 0, 0">
+                            <Grid RowDefinitions="0.6*, *">
+                                <Grid Width="35" Grid.Row="0" RowDefinitions="*, *, *">
+                                    <Button x:Name="addManufacturerButton" Classes="GodButton" VerticalAlignment="Center" HorizontalAlignment="Right" Width="30" Height="30" Grid.Row="0">
+                                        <Button.Background>
+                                            <ImageBrush Stretch="Fill" Source="/Assets/addicon.png"></ImageBrush>
+                                        </Button.Background>
+                                        <Button.Styles>
+                                            <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                                <Setter Property="Background">
+                                                    <ImageBrush Stretch="Fill" Source="/Assets/addicon.png"></ImageBrush>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Styles>
+                                    </Button>
+                                    <Button x:Name="changeManufacturerButton" Classes="GodButton" VerticalAlignment="Center" HorizontalAlignment="Right" Width="30" Height="30" Grid.Row="1">
+                                        <Button.Background>
+                                            <ImageBrush Stretch="Fill" Source="/Assets/changeicon.png"></ImageBrush>
+                                        </Button.Background>
+                                        <Button.Styles>
+                                            <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                                <Setter Property="Background">
+                                                    <ImageBrush Stretch="Fill" Source="/Assets/changeicon.png"></ImageBrush>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Styles>
+                                    </Button>
+                                    <Button x:Name="deleteManufacturerButton" Classes="GodButton" VerticalAlignment="Center" HorizontalAlignment="Right" Width="30" Height="30" Grid.Row="2">
+                                        <Button.Background>
+                                            <ImageBrush Stretch="Fill" Source="/Assets/deleteicon.png"></ImageBrush>
+                                        </Button.Background>
+                                        <Button.Styles>
+                                            <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                                <Setter Property="Background">
+                                                    <ImageBrush Stretch="Fill" Source="/Assets/deleteicon.png"></ImageBrush>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Styles>
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="unitsTab" IsVisible="False">
+                <Grid ColumnDefinitions="*, Auto">
+                    <Grid Grid.Column="0" RowDefinitions="Auto, *">
+                        <Border Grid.Row="0" Height="45" Background="Transparent" BorderBrush="White" BorderThickness="0, 0, 0, 2">
+                            <StackPanel Orientation="Horizontal">
+                                <Border  Width="150" BorderBrush="White" BorderThickness="0, 0, 2, 0">
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Bold">ЕДИНИЦЫ ИЗМЕРЕНИЯ</TextBlock>
+                                </Border>
+                                <TextBox x:Name="unitsFilterText" Width="200" MinHeight="1" Height="32" VerticalAlignment="Center" Margin="15, 0, 10, 0"></TextBox>
+                            </StackPanel>
+                        </Border>
+                        <DataGrid Margin="5, 0, 0, 0" x:Name="unitsDataGrid" IsReadOnly="True" x:CompileBindings="False" ItemsSource="{Binding UnitsView}" Grid.Row="1">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Название" Binding="{Binding name}"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                    <Grid Grid.Column="1" Background="Transparent">
+                        <Border BorderBrush="White" BorderThickness="2, 0, 0, 0">
+                            <Grid RowDefinitions="0.6*, *">
+                                <Grid Width="35" Grid.Row="0" RowDefinitions="*, *, *">
+                                    <Button x:Name="addUnitButton" Classes="GodButton" VerticalAlignment="Center" HorizontalAlignment="Right" Width="30" Height="30" Grid.Row="0">
+                                        <Button.Background>
+                                            <ImageBrush Stretch="Fill" Source="/Assets/addicon.png"></ImageBrush>
+                                        </Button.Background>
+                                        <Button.Styles>
+                                            <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                                <Setter Property="Background">
+                                                    <ImageBrush Stretch="Fill" Source="/Assets/addicon.png"></ImageBrush>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Styles>
+                                    </Button>
+                                    <Button x:Name="changeUnitButton" Classes="GodButton" VerticalAlignment="Center" HorizontalAlignment="Right" Width="30" Height="30" Grid.Row="1">
+                                        <Button.Background>
+                                            <ImageBrush Stretch="Fill" Source="/Assets/changeicon.png"></ImageBrush>
+                                        </Button.Background>
+                                        <Button.Styles>
+                                            <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                                <Setter Property="Background">
+                                                    <ImageBrush Stretch="Fill" Source="/Assets/changeicon.png"></ImageBrush>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Styles>
+                                    </Button>
+                                    <Button x:Name="deleteUnitButton" Classes="GodButton" VerticalAlignment="Center" HorizontalAlignment="Right" Width="30" Height="30" Grid.Row="2">
+                                        <Button.Background>
+                                            <ImageBrush Stretch="Fill" Source="/Assets/deleteicon.png"></ImageBrush>
+                                        </Button.Background>
+                                        <Button.Styles>
+                                            <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                                <Setter Property="Background">
+                                                    <ImageBrush Stretch="Fill" Source="/Assets/deleteicon.png"></ImageBrush>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Styles>
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Border>
+</Window>
